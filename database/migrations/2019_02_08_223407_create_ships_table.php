@@ -19,6 +19,7 @@ class CreateShipsTable extends Migration
             $table->integer('y');
             $table->string('axis');
             $table->integer('length');
+            $table->integer('shot_counter')->default(0);
             $table->unsignedInteger('user_id');
             $table->timestamps();
 
