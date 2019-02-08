@@ -33,4 +33,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Score::class, 'user_id');
     }
+
+    // One user has many ships
+    public function ships()
+    {
+        return $this->hasMany(Ship::class, 'user_id');
+    }
 }
