@@ -39,4 +39,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ship::class, 'user_id');
     }
+
+    // One user has many shots
+    public function shots()
+    {
+        return $this->hasMany(Shot::class, 'user_id');
+    }
 }
