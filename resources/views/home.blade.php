@@ -13,8 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                        <button type="button" class="btn btn-secondary btn-lg btn-block">CONTINUE</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block">NEW GAME</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block">RANKING</button>
                 </div>
             </div>
         </div>
