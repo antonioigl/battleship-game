@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShotRequest;
 use App\Shot;
 use Illuminate\Http\Request;
 
@@ -33,9 +34,12 @@ class ShotController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShotRequest $shotRequest)
     {
-        //
+        var_dump($shotRequest->data['col']);
+        var_dump($shotRequest->data['row']);
+        die('done!');
+
     }
 
     /**
