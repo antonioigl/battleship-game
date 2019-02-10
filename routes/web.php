@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/new-game', 'ShipController@newGame')->name('newGame');
+    Route::post('/shots', 'ShotController@store')->name('shots.store');
+});
