@@ -43,9 +43,9 @@
 @section('script')
 
     <script>
-        function fire(row, col) {
+        function fire(x, y) {
 
-            var id = row.toString() + col.toString();
+            var id = x.toString() + y.toString();
             $('#' + id).children('i').remove();
             $('#' + id).append( "<i class=\"fa fa-spinner fa-spin\"></i>" );
 
@@ -53,14 +53,52 @@
             $.post("/shots",
                 {
                     _token: CSRF_TOKEN,
-                    data: {row: row, col: col}
+                    data: {x: x, y: y}
                 },
                 function(data,status){
                     $("#" + id).removeClass('btn-light');
-                    $("#" + id).addClass('btn-primary');
                     $("#" + id).children('i').removeClass("fa-spinner");
                     $("#" + id).children('i').removeClass("fa-spin");
-                    $("#" + id).children('i').addClass("fa-ship");
+
+                    //success
+                    if (data.state){
+                        // sunken ship
+                        if (data.ship['length'] == data.ship['shot_counter']){
+                            var axisXship = data.ship['x'];
+                            var axisYship = data.ship['y'];
+
+                            for (var i = 0; i < data.ship['length']; i++){
+                                var axisId = axisXship.toString() + axisYship.toString();
+                                console.log(axisId);
+                                $("#" + axisId).removeClass('btn-warning');
+                                $("#" + axisId).addClass('btn-danger');
+                                $("#" + axisId).children('i').addClass('fa-ship');
+
+                                if (data.ship['axis'] === 'H'){
+                                    axisYship++;
+                                }
+                                else {
+                                    axisXship++;
+                                }
+                            }
+                        }
+                        //boat fired
+                        else {
+                            $("#" + id).addClass('btn-warning');
+                            $("#" + id).children('i').addClass('fa-ship');
+                        }
+                    }
+                    //water
+                    else {
+                        //add class primary if not has class danger or warning
+                        if (!($("#" + id).hasClass('btn-danger') || $("#" + id).hasClass('btn-warning'))) {
+                            $("#" + id).addClass('btn-primary');
+                        }
+                        else {
+                            $("#" + id).children('i').addClass('fa-ship');
+                        }
+                    }
+
                 }
             );
         }
