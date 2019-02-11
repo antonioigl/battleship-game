@@ -13,9 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <button type="button" class="btn btn-secondary btn-lg btn-block">CONTINUE</button>
-                        <button type="button" class="btn btn-primary btn-lg btn-block">NEW GAME</button>
-                        <button type="button" class="btn btn-primary btn-lg btn-block">RANKING</button>
+                        <a href="{{route('ships.create')}}" class="btn btn-secondary btn-lg btn-block">CONTINUE</a>
+                        <a href="{{route('ships.create')}}" class="btn btn-primary btn-lg btn-block">NEW GAME</a>
+                        <a href="" class="btn btn-primary btn-lg btn-block">RANKING</a>
                 </div>
             </div>
         </div>
