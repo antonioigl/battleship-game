@@ -45,7 +45,7 @@
     <script>
         function fire(row, col) {
 
-            var id = row + col;
+            var id = row.toString() + col.toString();
             $('#' + id).children('i').remove();
             $('#' + id).append( "<i class=\"fa fa-spinner fa-spin\"></i>" );
 
@@ -58,14 +58,9 @@
                 function(data,status){
                     $("#" + id).removeClass('btn-light');
                     $("#" + id).addClass('btn-primary');
-                    // $("#" + id).remove('i');
                     $("#" + id).children('i').removeClass("fa-spinner");
                     $("#" + id).children('i').removeClass("fa-spin");
                     $("#" + id).children('i').addClass("fa-ship");
-                    // $('#' + id).append( "<i class=\"fa fa-spinner fa-spin\" style=\"font-size:24px\"></i>" );
-
-                    // alert("Data: " + data + "\nStatus: " + status);
-                    // alert("Data: " + data);
                 }
             );
         }
