@@ -9,6 +9,56 @@
                     <div class="card-header">Game</div>
 
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>1-Destroyer: 2 | 1-Submarine: 3 | 1-Battleship: 4 | 1-Carrier: 5</p>
+                                <p> Total shots: <span id="total-shots"> 0</span> </p>
+                            </div>
+                            <div class="offset-md-3 col-md-3">
+
+                                <a href="{{route('home')}}" class="btn btn-primary">GO HOME</a>
+                                <a href="" class="btn btn-secondary">RESET GAME</a>
+                            </div>
+                        </div>
+
+                            {{--<a href="" class="btn btn-success">GO HOME</a>--}}
+                            {{--<a href="" class="btn btn-success">GO HOME</a>--}}
+                            {{--<a href="" class="btn btn-success">GO HOME</a>--}}
+                        {{--<div class="col-md-6">--}}
+                        {{--<table class="table">--}}
+                            {{--<thead>--}}
+                            {{--<tr>--}}
+                                {{--<th>Amount</th>--}}
+                                {{--<th>Class of ship</th>--}}
+                                {{--<th>Size</th>--}}
+
+                            {{--</tr>--}}
+                            {{--</thead>--}}
+                            {{--<tbody>--}}
+                                {{--<tr>--}}
+                                    {{--<td>1</td>--}}
+                                    {{--<td>Destroyer</td>--}}
+                                    {{--<td>2</td>--}}
+                                {{--</tr>--}}
+                                {{--<tr>--}}
+                                    {{--<td>1</td>--}}
+                                    {{--<td>Submarine</td>--}}
+                                    {{--<td>3</td>--}}
+                                {{--</tr>--}}
+                                {{--<tr>--}}
+                                    {{--<td>1</td>--}}
+                                    {{--<td>Battleship</td>--}}
+                                    {{--<td>4</td>--}}
+                                {{--</tr>--}}
+                                {{--<tr>--}}
+                                    {{--<td>1</td>--}}
+                                    {{--<td>Carrier</td>--}}
+                                    {{--<td>5</td>--}}
+                                {{--</tr>--}}
+                            {{--</tbody>--}}
+                        {{--</table>--}}
+
+                        {{--</div>--}}
                         <table class="table table-bordered table-condensed">
                             <thead>
                             <tr>
@@ -99,6 +149,7 @@
                         }
                     }
 
+                    $("#total-shots").text(data.shotsCount.toString());
                 }
             );
         }
