@@ -37,6 +37,7 @@ class ShotController extends Controller
     public function store(ShotRequest $shotRequest)
     {
         $shots = auth()->user()->shots()->get();
+        $shotsCount = $shots->count() + 1;
         $shipFired = null;
         $state = 0; //water or success
 
@@ -53,6 +54,7 @@ class ShotController extends Controller
                 return response()->json([
                     'state' => $state,
                     'ship' => $shipFired,
+                    'shotsCount' => $shotsCount,
                 ]);
             }
         }
@@ -105,6 +107,7 @@ class ShotController extends Controller
         return response()->json([
             'state' => $state,
             'ship' => $shipFired,
+            'shotsCount' => $shotsCount,
         ]);
     }
 
