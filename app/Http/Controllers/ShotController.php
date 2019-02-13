@@ -84,10 +84,10 @@ class ShotController extends Controller
                 }
 
                 if ($ship->axis === 'H'){
-                    $y++;
+                    $x++;
                 }
                 else{
-                    $x++;
+                    $y++;
                 }
             }
 
@@ -155,4 +155,14 @@ class ShotController extends Controller
     {
         //
     }
+
+    public function myShots()
+    {
+        $shots = auth()->user()->shots()->get();
+
+        return response()->json([
+            'shots' => $shots,
+        ]);
+    }
+
 }

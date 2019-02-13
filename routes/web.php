@@ -21,4 +21,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/ships/create', 'ShipController@create')->name('ships.create');
     Route::post('/shots', 'ShotController@store')->name('shots.store');
+    Route::get('/my-ships', 'ShipController@myShips')->name('ship.myShips');
+    Route::get('/my-shots', 'ShotController@myShots')->name('shot.myShots');
 });

@@ -82,4 +82,13 @@ class ShipController extends Controller
     {
         //
     }
+
+    public function myShips()
+    {
+        $ships = auth()->user()->ships()->get();
+
+        return response()->json([
+            'ships' => $ships,
+        ]);
+    }
 }
