@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ship;
+use App\Shot;
 use Illuminate\Http\Request;
 
 class ShipController extends Controller
@@ -24,14 +25,10 @@ class ShipController extends Controller
      */
     public function create()
     {
-//        $shipsCount = auth()->user()->ships()->count();
-//
-//        if ($shipsCount){
-//            return view('ships.create');
-//        }
 
         $userId = auth()->user()->id;
-//        Ship::where('user_id', $userId)->delete();
+        Shot::where('user_id', $userId)->delete(); //delete shots user
+        Ship::where('user_id', $userId)->delete(); //delete ships user
         $ships = ['carrier' => 5, 'battleship' => 4, 'submarine' => 3, 'destroyer' => 2];
 
         foreach ($ships as $ship){
@@ -51,13 +48,6 @@ class ShipController extends Controller
                 $isValidShipInGrid = $this->validateShipInGrid($x, $y, $size, $axis);
             }
 
-            var_dump($x);
-            var_dump($y);
-            var_dump($axis);
-            var_dump($ship);
-            var_dump($userId);
-//            dd('done');
-
             $sucess = Ship::create([
                 'x' => $x,
                 'y' => $y,
@@ -66,13 +56,9 @@ class ShipController extends Controller
                 'shot_counter' => 0,
                 'user_id' => $userId,
             ]);
-
-
         }
 
-        die('done!');
-
-        return view('ships.create');
+        return redirect(route('ships.play'));
     }
 
     private function validateShipInGrid($x, $y, $size, $axis)
@@ -120,6 +106,12 @@ class ShipController extends Controller
 
         return true;
     }
+
+    public function play(){
+
+        return view('ships.create');
+    }
+
 
     /**
      * Store a newly created resource in storage.
