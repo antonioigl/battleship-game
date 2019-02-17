@@ -27,8 +27,9 @@ class ShipController extends Controller
     {
 
         $userId = auth()->user()->id;
-        Shot::where('user_id', $userId)->delete(); //delete shots user
-        Ship::where('user_id', $userId)->delete(); //delete ships user
+        auth()->user()->shots()->delete(); //delete shots user
+        auth()->user()->ships()->delete(); //delete ships user
+
         $ships = ['carrier' => 5, 'battleship' => 4, 'submarine' => 3, 'destroyer' => 2];
 
         foreach ($ships as $ship){
@@ -58,7 +59,7 @@ class ShipController extends Controller
             ]);
         }
 
-        return redirect(route('ships.play'));
+        return redirect()->route('ships.play');
     }
 
     private function validateShipInGrid($x, $y, $size, $axis)
@@ -107,13 +108,24 @@ class ShipController extends Controller
         return true;
     }
 
-    public function play(){
-
+    public function play()
+    {
         return view('ships.create');
     }
 
-    public function gameOver(){
+    public function reset()
+    {
+        $user = auth()->user();
+        Shot::where('user_id', $user->id)->delete(); //delete shots user
 
+        Ship::sunkenAll(); //sunken ships
+
+
+        return view('ships.reset');
+    }
+
+    public function gameOver()
+    {
         $isGameOver = Ship::isGameOver();
 
         return response()->json([
