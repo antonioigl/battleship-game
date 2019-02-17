@@ -37,7 +37,7 @@
                                     <td>{{$i}}</td>
                                     @for ($k = 1; $k <= 10; $k ++)
                                         <td>
-                                            <button class="btn btn-block btn-light" onclick="fire({{$k}},{{$j}})"  id="{{$k}}{{$j}}" data-toggle="tooltip" data-placement="top" title="{{"({$i}, {$k})"}}">
+                                            <button type="button" class="btn btn-block btn-light" onclick="fire({{$k}},{{$j}})"  id="{{$k}}{{$j}}" data-toggle="tooltip" data-placement="top" title="{{"({$i}, {$k})"}}">
                                                 <i class="fa fa-bomb"></i>
                                             </button>
                                         </td>
@@ -51,18 +51,23 @@
             </div>
         </div>
     </div>
+    @include('modals.game-over')
 @endsection
 
 @section('script')
 
     <script>
+        const totalSizeShips = 14;
+
         function fire(x, y) {
 
+            $('button').prop('disabled',true);
             var id = x.toString() + y.toString();
             $('#' + id).children('i').remove();
             $('#' + id).append( "<i class=\"fa fa-spinner fa-spin\"></i>" );
 
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({async: false});
             $.post('/shots',
                 {
                     _token: CSRF_TOKEN,
@@ -112,18 +117,35 @@
                             $('#' + id).children('i').addClass('fa-ship');
                         }
                     }
-
+                    $('button').prop('disabled',false);
                     $('#total-shots').text(data.shotsCount.toString());
                 }
             );
+
+            var shots = totalSizeShips/parseInt($('#total-shots').text());
+            $('#score').html(shots.toFixed(4));
+
+            $('#gameOverModalCenter').on('hidden.bs.modal', function(){
+                $('button').prop('disabled',true);
+            });
+
+            $.get('/ships/game-over', function(response){
+                if (response.gameOver){
+                    $('#gameOverModalCenter').modal();
+                }
+            });
         }
+
+
 
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
+            $('button').prop('disabled',true);
 
-            //peticion get para pintar todos los pistaros del usuarios logueado. Los que tienen un barco asociado será un acierto y los que no sera agua
-
-            $.get('/my-shots', function(response){
+            //get request paint shots user login.
+            // if ship_id is not null is success else is water
+            $.ajaxSetup({async: false});
+            $.get('/shots/my-shots', function(response){
 
                 if(response.shots.length){
                     for (var i = 0; i < response.shots.length; i++){
@@ -149,11 +171,12 @@
 
                     $('#total-shots').text(response.shots.length.toString());
                 }
+                $('button').prop('disabled',false);
             });
 
 
-            // peticion get para traer todos los barcos hundidos (funcion a implementar en el controlador barcosHundidosByUser) para repintar las casillas de los barcos que hayan sido hundidos
-            $.get('/my-ships', function(response){
+            // get request sunken ships to paint sunken ships
+            $.get('/ships/my-ships', function(response){
 
                 if(response.ships.length){
                     for (var i = 0; i < response.ships.length; i++){
@@ -165,7 +188,7 @@
                         var shot_counter = response.ships[i]['shot_counter'];
 
                         if (length == shot_counter){
-                            for (var i = 0; i < length; i++){
+                            for (var j = 0; j < length; j++){
                                 var axisId = x.toString() + y.toString();
                                 $('#' + axisId).removeClass('btn-warning');
                                 $('#' + axisId).addClass('btn-danger');
@@ -180,6 +203,20 @@
                             }
                         }
                     }
+                }
+                $('button').prop('disabled',false);
+            });
+
+            var shots = totalSizeShips/parseInt($('#total-shots').text());
+            $('#score').html(shots.toFixed(4));
+
+            $('#gameOverModalCenter').on('hidden.bs.modal', function(){
+                $('button').prop('disabled',true);
+            });
+
+            $.get('/ships/game-over', function(response){
+                if (response.gameOver){
+                    $('#gameOverModalCenter').modal();
                 }
             });
         });

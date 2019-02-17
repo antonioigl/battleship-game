@@ -112,6 +112,15 @@ class ShipController extends Controller
         return view('ships.create');
     }
 
+    public function gameOver(){
+
+        $isGameOver = Ship::isGameOver();
+
+        return response()->json([
+            'gameOver' => $isGameOver,
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
