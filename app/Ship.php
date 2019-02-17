@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Ship extends Model
 {
@@ -20,13 +21,15 @@ class Ship extends Model
         return $this->length == $this->shot_counter;
     }
 
+    public static function sunkenAll()
+    {
+        $userId = auth()->user()->id;
+        return static::where('user_id', $userId)->update(['shot_counter' => DB::raw('length')]);
+    }
+
     public static function isGameOver()
     {
         $userId = auth()->user()->id;
-
-//        $count = static::where('user_id', $userId)->whereRaw('length = shot_counter')->count();
-//        var_dump($count);
-
         return static::where('user_id', $userId)->whereRaw('length = shot_counter')->count() == self::TOTAL_SHIPS;
     }
 
