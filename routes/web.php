@@ -21,8 +21,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/ships/create', 'ShipController@create')->name('ships.create');
     Route::get('/ships/play', 'ShipController@play')->name('ships.play');
+    Route::get('/ships/reset', 'ShipController@reset')->name('ships.reset');
     Route::get('/ships/game-over', 'ShipController@gameOver')->name('ships.gameOver');
     Route::post('/shots', 'ShotController@store')->name('shots.store');
     Route::get('/ships/my-ships', 'ShipController@myShips')->name('ships.myShips');
     Route::get('/shots/my-shots', 'ShotController@myShots')->name('shots.myShots');
+    Route::post('/scores', 'ScoreController@store')->name('scores.store');
+    Route::get('/scores/show', 'ScoreController@show')->name('scores.show');
+    Route::get('/scores/index', 'ScoreController@index')->name('scores.index');
 });
