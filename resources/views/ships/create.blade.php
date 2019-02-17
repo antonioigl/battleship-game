@@ -18,7 +18,7 @@
                             <div class="offset-md-3 col-md-3">
 
                                 <a href="{{route('home')}}" class="btn btn-primary">GO HOME</a>
-                                <a href="" class="btn btn-secondary">RESET GAME</a>
+                                <a href="{{route('ships.reset')}}" class="btn btn-secondary">RESET GAME</a>
                             </div>
                         </div>
 
@@ -60,11 +60,10 @@
         const totalSizeShips = 14;
 
         function fire(x, y) {
-
-            $('button').prop('disabled',true);
             var id = x.toString() + y.toString();
             $('#' + id).children('i').remove();
             $('#' + id).append( "<i class=\"fa fa-spinner fa-spin\"></i>" );
+            $('button').prop('disabled',true);
 
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajaxSetup({async: false});
@@ -136,7 +135,23 @@
             });
         }
 
+        function storeScore()
+        {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
+            $.post('/scores',
+                {
+                    _token: CSRF_TOKEN,
+                },
+                function(data,status){
+                    if (data.urlRedirect !== '') {
+                        // data.redirect contains the string URL to redirect to
+                        window.location.href = data.urlRedirect;
+                    }
+
+                }
+            );
+        }
 
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
