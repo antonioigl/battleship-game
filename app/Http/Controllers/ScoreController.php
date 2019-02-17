@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Score;
+use App\Shot;
 use Illuminate\Http\Request;
+
+define ('TOTAL_SIZE_SHIPS', 4);
 
 class ScoreController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +18,9 @@ class ScoreController extends Controller
      */
     public function index()
     {
-        //
+        $scores = Score::all();
+        return view('scores.index', compact('scores'));
+
     }
 
     /**
@@ -33,9 +39,25 @@ class ScoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $urlRedirect = '/scores/show';
+
+        $user = auth()->user();
+        $totalShots =$user->shots()->count();
+        $score = round(TOTAL_SIZE_SHIPS/$totalShots, 4);
+
+        $user->shots()->delete();
+        $user->ships()->delete();
+
+        Score::create([
+            'points' => $score,
+            'user_id' => $user->id,
+        ]);
+
+        return response()->json([
+            'urlRedirect' => $urlRedirect,
+        ]);
     }
 
     /**
@@ -44,9 +66,10 @@ class ScoreController extends Controller
      * @param  \App\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function show(Score $score)
+    public function show()
     {
-        //
+        $scores = auth()->user()->scores()->orderBy('created_at', 'desc')->get();
+        return view('scores.scores', compact('scores'));
     }
 
     /**
