@@ -11,9 +11,7 @@
                 Your score is: <strong><span id="score"></span></strong> <br>
             </div>
             <div class="modal-body text-center">
-                <a href="{{route('ships.create')}}" class="btn btn-primary">NEW GAME</a>
-                <a href="" class="btn btn-primary">MY SCORES</a>
-                <a href="" class="btn btn-primary">RANKING</a>
+                <button class="btn btn-primary" onclick="storeScore()">SAVE SCORE</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
