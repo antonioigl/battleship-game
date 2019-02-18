@@ -18,7 +18,7 @@ class ScoreController extends Controller
      */
     public function index()
     {
-        $scores = Score::all();
+        $scores = Score::orderBy('points', 'desc')->get();
         return view('scores.index', compact('scores'));
 
     }
@@ -68,7 +68,7 @@ class ScoreController extends Controller
      */
     public function show()
     {
-        $scores = auth()->user()->scores()->orderBy('created_at', 'desc')->get();
+        $scores = auth()->user()->scores()->orderBy('points', 'desc')->get();
         return view('scores.scores', compact('scores'));
     }
 
