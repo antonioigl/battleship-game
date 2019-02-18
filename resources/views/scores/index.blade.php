@@ -20,14 +20,17 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Username</th>
                                     <th>Date</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($scores as $score)
+                                @foreach($scores as $key => $score)
                                     <tr @if(auth()->user()->id == $score->user_id) class="table-primary" @endif>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$score->user->username}}</td>
                                         <td>{{$score->user->username}}</td>
                                         <td>{{$score->points}}</td>
                                         <td>{{$score->created_at}}</td>
