@@ -17,7 +17,7 @@ class CreateShotsTable extends Migration
             $table->increments('id');
             $table->integer('x');
             $table->integer('y');
-            $table->unsignedInteger('user_id')();
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('ship_id')->nullable();
             $table->timestamps();
 
